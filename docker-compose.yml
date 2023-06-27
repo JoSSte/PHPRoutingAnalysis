@@ -1,0 +1,45 @@
+version: '3.5'
+services:
+
+# https://dev.to/texe/how-to-run-nginx-and-php-in-docker-5eoi
+
+  #PHP App
+  app:
+    build:
+      context: .
+      dockerfile: config/dockerfile
+    #user: "www-data:www-data"
+    image: php:8.2-fpm-alpine
+    container_name: php_app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    volumes:
+      - ./src/:/var/www/html
+      #- ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    networks:
+      - labnet
+
+  #Nginx Service
+  nginx:
+    #user: "www-data:www-data"
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/:/var/www/html
+      - ./config/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - labnet
+
+#Docker Networks
+networks:
+  labnet: 
+    external: true
+    driver: overlay
