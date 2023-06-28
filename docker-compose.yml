@@ -25,7 +25,7 @@ services:
 
   #Nginx Service
   nginx:
-    #user: "www-data:www-data"
+    #user: "nginx:nginx"
     image: nginx:alpine
     container_name: nginx
     restart: unless-stopped

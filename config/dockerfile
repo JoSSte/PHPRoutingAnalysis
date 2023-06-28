@@ -19,13 +19,13 @@ RUN docker-php-ext-enable pdo_mysql
 RUN rm -rf /var/cache/apk/*
 
 # 7 Add UID '1000' to www-data
-RUN usermod -u 1000 www-data
+#RUN usermod -u 1000 www-data
 
 # 8 Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www/html
+#COPY --chown=www-data:www-data . /var/www/html
 
 # 9 Change current user to www
-USER www-data
+#USER www-data
 
 # 10 Expose port 9000 and start php-fpm server
 EXPOSE 9000
